@@ -1,1 +1,1 @@
-{"root":["./src/main.tsx","./src/contracts/landregistry.ts","./src/ui/app.tsx"],"version":"5.9.3"}
+{"root":["./src/main.tsx","./src/contracts/landRegistry.ts","./src/ui/App.tsx","./src/ui/ErrorBoundary.tsx"],"version":"5.9.3"}

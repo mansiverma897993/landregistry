@@ -101,6 +101,7 @@ export function App() {
   const [manualContractAddress, setManualContractAddress] = useState<string>("");
   const [manualSavedForChain, setManualSavedForChain] = useState<`0x${string}` | null>(null);
   const [demoMode, setDemoMode] = useState(false);
+  const [selectedConnectorId, setSelectedConnectorId] = useState<string | null>(null);
 
   useEffect(() => {
     try {
@@ -112,6 +113,12 @@ export function App() {
       setManualSavedForChain(null);
     }
   }, [chain?.id]);
+
+  useEffect(() => {
+    if (!selectedConnectorId && connectors.length > 0) {
+      setSelectedConnectorId(connectors[0].id);
+    }
+  }, [connectors, selectedConnectorId]);
 
   const contractCfg = useMemo(() => getLandRegistryAddressForChain(chain?.id), [chain?.id]);
   const contractAddress = manualSavedForChain ?? contractCfg.address;
@@ -339,15 +346,31 @@ export function App() {
               <div className="flex flex-wrap items-center gap-2">
                 {!address ? (
                   <>
-                    {connectors.map((c) => (
+                    <div className="flex items-center gap-2">
+                      <select
+                        className="rounded-xl border border-slate-800 bg-slate-950/50 px-2 py-2 text-sm text-slate-100"
+                        value={selectedConnectorId ?? ""}
+                        onChange={(e) => setSelectedConnectorId(e.target.value)}
+                      >
+                        {connectors.map((c) => (
+                          <option key={c.uid} value={c.id}>
+                            {c.name}
+                          </option>
+                        ))}
+                      </select>
                       <Button
-                        key={c.uid}
-                        onClick={() => connect({ connector: c })}
-                        disabled={isConnecting}
+                        onClick={() => {
+                          const connector = connectors.find((c) => c.id === selectedConnectorId) ?? connectors[0];
+                          if (connector) connect({ connector });
+                        }}
+                        disabled={isConnecting || connectors.length === 0}
                       >
                         Connect wallet
                       </Button>
-                    ))}
+                    </div>
+                    <div className="text-xs text-slate-400">
+                      Available: {connectors.map((c) => c.name).join(", ")}.
+                    </div>
                   </>
                 ) : (
                   <>
