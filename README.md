@@ -1,4 +1,4 @@
-# Blockchain-based Land Ownership System
+#LandRegistry : Blockchain-based Land Ownership System
 
 This repo contains:
 
