@@ -1,4 +1,5 @@
 # LandRegistry : Blockchain-based Land Ownership System
+Built a decentralized land registry using smart contracts, enabling secure ownership records via unique parcel IDs. Supports on-chain ownership transfer using wallet addresses and instant verification of property data.
 
 This repo contains:
 
